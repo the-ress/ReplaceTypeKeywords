@@ -92,9 +92,13 @@ namespace ReplaceTypeKeywords.Core
 
         private SyntaxNode EnsureUsingSystem(SyntaxNode rootNode)
         {
-            var usings = rootNode.ChildNodes()
-                .OfType<UsingDirectiveSyntax>()
-                .ToArray();
+            var cus = rootNode as CompilationUnitSyntax;
+            if (cus == null)
+            {
+                return rootNode;
+            }
+
+            var usings = cus.Usings;
 
             if (IsUsingSystemPresent(usings))
             {
@@ -106,28 +110,27 @@ namespace ReplaceTypeKeywords.Core
             var systemUsing = SyntaxFactory.UsingDirective(systemName)
                 .WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed);
 
-            SyntaxNode insertBeforeNode = null;
-            foreach (var node in usings)
+            Int32 insertAt = -1;
+            for (Int32 i = 0; i < usings.Count; i++)
             {
+                var node = usings[i];
                 if (String.CompareOrdinal(nameof(System), node.Name.ToString()) <= 0)
                 {
-                    insertBeforeNode = node;
+                    insertAt = i;
                     break;
                 }
             }
 
-            if (insertBeforeNode != null)
+            if (insertAt != -1)
             {
-                return rootNode.InsertNodesBefore(insertBeforeNode, new[] { systemUsing });
-            }
-            else if (usings.Any())
-            {
-                return rootNode.InsertNodesAfter(usings.Last(), new[] { systemUsing });
+                usings = usings.Insert(insertAt, systemUsing);
             }
             else
             {
-                return rootNode.InsertNodesBefore(rootNode.ChildNodes().First(), new[] { systemUsing });
+                usings = usings.Add(systemUsing);
             }
+
+            return cus.WithUsings(usings);
         }
 
         private Boolean IsUsingSystemPresent(IEnumerable<UsingDirectiveSyntax> nodes)
