@@ -5,7 +5,7 @@
     <DisplayName>Replace C# Type Keywords On Save</DisplayName>
     <Description xml:space="preserve">Replaces C# type keywords like int and string with .NET type names like Int32 and String when you save a file.
 
-You can find the source here: https://github.com/the-ress</Description>
+You can find the source here: https://github.com/the-ress/ReplaceTypeKeywords</Description>
   </Metadata>
   <Installation InstalledByMsi="false">
     <InstallationTarget Version="[12.0,15.0)" Id="Microsoft.VisualStudio.Community" />

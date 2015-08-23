@@ -19,7 +19,7 @@ namespace ReplaceTypeKeywords.VSE
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // This attribute is used to register the information needed to show this package in the Help/About dialog of Visual Studio.
     [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}")] //To set the UI context to autoload a VSPackage
     [Guid(GuidList.guidVSPackage2PkgString)]
-    public sealed class FormatDocumentOnSavePackage : Package
+    public sealed class ReplaceTypeKeywordsOnSavePackage : Package
     {
         private ReplaceTypeKeywordsOnBeforeSave plugin;
 
@@ -30,7 +30,7 @@ namespace ReplaceTypeKeywords.VSE
         /// not sited yet inside Visual Studio environment. The place to do all the other
         /// initialization is the Initialize method.
         /// </summary>
-        public FormatDocumentOnSavePackage() { }
+        public ReplaceTypeKeywordsOnSavePackage() { }
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
